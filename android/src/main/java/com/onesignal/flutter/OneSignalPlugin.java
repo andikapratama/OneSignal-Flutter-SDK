@@ -297,7 +297,11 @@ public class OneSignalPlugin
 
   private void setExternalUserId(MethodCall call, final Result result) {
     String externalUserId = call.argument("externalUserId");
-    OneSignal.setExternalUserId(externalUserId, new OneSignal.OSExternalUserIdUpdateCompletionHandler() {
+    String externalUserId = call.argument("authHashToken");
+    if (externalUserId != null && externalUserId.length() == 0) {
+      externalUserId = null;
+    }
+    OneSignal.setExternalUserId(externalUserId, externalUserId, new OneSignal.OSExternalUserIdUpdateCompletionHandler() {
       @Override
       public void onComplete(JSONObject results) {
         try {
